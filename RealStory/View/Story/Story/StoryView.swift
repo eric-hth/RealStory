@@ -57,7 +57,7 @@ private struct StoryUserView : View {
             .clipShape(Circle())
             Text(user.name).foregroundStyle(.white)
             Spacer()
-            Image(systemName:"xmark").font(.system(size: 16)).foregroundColor(.white).onTapGesture {
+            Image(systemName:"xmark").font(.system(size: 25)).foregroundColor(.white).onTapGesture {
                 onClose()
             }
         }
