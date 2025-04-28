@@ -16,7 +16,7 @@ struct StoryListView: View {
             Color.black.ignoresSafeArea()
             TabView(selection: $storyListViewModel.currentStoryId){
                 ForEach(storyListViewModel.storyList){ story in
-                    StoryView(  story: story, onClose:onClose)
+                    StoryView(  storyListViewModel: storyListViewModel, story: story )
                         .tag(story.id)
                 }
             }

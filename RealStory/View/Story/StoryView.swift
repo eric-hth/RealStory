@@ -7,15 +7,24 @@
 import SwiftUI
 
 struct StoryView : View {
-    let story : Story
-    let onClose : () -> Void
+    @StateObject var storyViewModel : StoryViewModel
+    init(storyListViewModel: StoryListViewModel, story: Story) {
+        self._storyViewModel = StateObject(wrappedValue: StoryViewModel(storyListViewModel: storyListViewModel, story: story))
+    }
     var body: some View {
         GeometryReader { proxy in
             ZStack{
-                AsyncImage(url: story.imageList[0].url).aspectRatio(contentMode: .fit)
+                AsyncImage(url: storyViewModel.currentStoryImage.url).aspectRatio(contentMode: .fit)
+                TapOverlay ( onTapLeft:{
+                    storyViewModel.previous()
+                }, onTapRight: {
+                    storyViewModel.next()
+                } )
                 VStack{
                     HStack{
-                        StoryUserView(user: story.user, onClose: onClose).padding(10)
+                        StoryUserView(user: storyViewModel.story.user, onClose: {
+                            storyViewModel.storyListViewModel.onClose()
+                        }).padding(10)
                         Spacer()
                     }
                     Spacer()
@@ -37,9 +46,7 @@ private extension Angle{
         Angle(degrees: 45 * proxy.frame(in: .global).minX / proxy.size.width)
     }
 }
- 
-
-struct StoryUserView : View {
+private struct StoryUserView : View {
     let user : User
     let onClose : () -> Void
     var body: some View {
@@ -54,5 +61,26 @@ struct StoryUserView : View {
                 onClose()
             }
         }
+    }
+}
+
+private struct TapOverlay : View {
+    let onTapLeft : () -> Void
+    let onTapRight : () -> Void
+    var body: some View {
+        HStack(spacing:0) {
+            TapRectangle
+            .onTapGesture {
+                onTapLeft()
+            }
+            TapRectangle
+            .onTapGesture {
+                onTapRight()
+            }
+        }
+    }
+    var TapRectangle : some View {
+        Rectangle()
+            .fill(.black.opacity(0.01))
     }
 }
