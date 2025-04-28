@@ -7,7 +7,10 @@
 
 
 extension Array where Element : Identifiable {
-    func previousElement( _ element : Element) -> Element?{
+    func previousElement( _ element : Element?) -> Element?{
+        guard let element = element else{
+            return nil
+        }
         guard let elementIndex = firstIndex(where:{  $0.id == element.id} )else{
             return nil
         }
@@ -19,7 +22,10 @@ extension Array where Element : Identifiable {
             return nil
         }
     }
-    func nextElement( _ element : Element) -> Element?{
+    func nextElement( _ element : Element?) -> Element?{
+        guard let element = element else{
+            return nil
+        }
         guard let elementIndex = firstIndex(where:{  $0.id == element.id} ) else{
             return nil
         }

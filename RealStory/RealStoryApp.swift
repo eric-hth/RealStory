@@ -13,5 +13,6 @@ struct RealStoryApp: App {
         WindowGroup {
             HomeView()
         }
+        .modelContainer(for: SwiftDataService.modelList)
     }
 }

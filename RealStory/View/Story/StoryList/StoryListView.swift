@@ -15,9 +15,11 @@ struct StoryListView: View {
         ZStack{
             Color.black.ignoresSafeArea()
             TabView(selection: $storyListViewModel.currentStoryId){
-                ForEach(storyListViewModel.storyList){ story in
-                    StoryView(  storyListViewModel: storyListViewModel, story: story )
-                        .tag(story.id)
+                if let storyList = storyListViewModel.storyList{
+                    ForEach(storyList){ story in
+                        StoryView(  storyListViewModel: storyListViewModel, story: story )
+                            .tag(story.id)
+                    }
                 }
             }
             .tabViewStyle(.page(indexDisplayMode: .never))

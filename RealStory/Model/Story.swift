@@ -5,11 +5,18 @@
 //  Created by Eric Hong Tuan Ha on 28/04/2025.
 //
 
+import SwiftData
 
-struct Story: Identifiable, Hashable {
-    let id : Int
-    let imageList : [StoryImage]
-    let user : User
+@Model
+class Story: Identifiable, Hashable {
+    var id : Int
+    var imageList : [StoryImage]
+    var user : User
+    init(id: Int, imageList: [StoryImage], user: User) {
+        self.id = id
+        self.imageList = imageList
+        self.user = user
+    }
 }
 
 extension Story{

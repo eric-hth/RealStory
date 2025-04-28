@@ -9,11 +9,11 @@ import SwiftUI
 
 @MainActor
 class StoryListViewModel  : ObservableObject {
-    @Published var storyList : [Story] = Story.testStoryList
-    @Published var currentStoryId : Int = Story.testStoryList[0].id
+    @Published var storyList : [Story]?
+    @Published var currentStoryId : Int?
     @Published var showModal : Bool = false
-    private var currentStory : Story {
-        self.storyList.first(where: {story in story.id == currentStoryId})!
+    private var currentStory : Story? {
+        self.storyList?.first(where: {story in story.id == currentStoryId})!
     }
     func topViewSelectStory(_ story:Story){
         currentStoryId = story.id
@@ -23,12 +23,12 @@ class StoryListViewModel  : ObservableObject {
         showModal = false
     }
     func nextStory(){
-        if let nextStory = storyList.nextElement(currentStory) {
+        if let nextStory = storyList?.nextElement(currentStory) {
             selectStory(nextStory)
         }
     }
     func previousStory(){
-        if let previousStory = storyList.previousElement(currentStory) {
+        if let previousStory = storyList?.previousElement(currentStory) {
             selectStory(previousStory)
         }
     }

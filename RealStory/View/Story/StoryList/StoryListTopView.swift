@@ -11,11 +11,14 @@ struct StoryListTopView: View {
     var body: some View {
         ScrollView(.horizontal, showsIndicators: false) {
             HStack {
-                ForEach(storyListViewModel.storyList) { story in
-                    UserRoundImage(user: story.user).padding(3).onTapGesture {
-                        storyListViewModel.topViewSelectStory(story)
+                if let storyList = storyListViewModel.storyList{
+                    ForEach(storyList) { story in
+                        UserRoundImage(user: story.user).padding(3).onTapGesture {
+                            storyListViewModel.topViewSelectStory(story)
+                        }
                     }
                 }
+
             }
         }
     }

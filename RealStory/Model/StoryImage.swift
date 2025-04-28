@@ -5,12 +5,20 @@
 //  Created by Eric Hong Tuan Ha on 28/04/2025.
 //
 
+import SwiftData
 
-struct StoryImage: Identifiable, Hashable {
-    let id : Int
-    let url : String
-    var like : Bool = false
-    var seen : Bool = false
+@Model
+class StoryImage: Identifiable, Hashable {
+    var id : Int
+    var url : String
+    var like : Bool
+    var seen : Bool
+    init(id: Int, url: String, like: Bool = false, seen: Bool = false) {
+        self.id = id
+        self.url = url
+        self.like = like
+        self.seen = seen
+    }
 }
 
 
