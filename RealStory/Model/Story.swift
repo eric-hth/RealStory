@@ -13,7 +13,7 @@ struct Story: Identifiable, Hashable {
 }
 
 extension Story{
-    static var storyList : [Story] {
+    static var testStoryList : [Story] {
             return Story.generateStoryList(userList: JsonService.userList)
     }
     private static var currentId = 1

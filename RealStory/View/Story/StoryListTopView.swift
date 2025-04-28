@@ -7,14 +7,13 @@
 import SwiftUI
 
 struct StoryListTopView: View {
-    let storyList : [Story]
-    let onSelect : ( _ story: Story) -> Void
+    @ObservedObject var storyListViewModel : StoryListViewModel
     var body: some View {
         ScrollView(.horizontal, showsIndicators: false) {
             HStack {
-                ForEach(storyList) { story in
+                ForEach(storyListViewModel.storyList) { story in
                     UserRoundImage(user: story.user).padding(3).onTapGesture {
-                        onSelect(story)
+                        storyListViewModel.topViewSelectStory(story)
                     }
                 }
             }

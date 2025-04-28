@@ -9,13 +9,13 @@ import SwiftUI
 
 
 struct StoryListView: View {
-    let storyList : [Story]
+    @ObservedObject var storyListViewModel : StoryListViewModel
     let onClose : () -> Void
     var body: some View {
         ZStack{
             Color.black.ignoresSafeArea()
-            TabView  {
-                ForEach(storyList){ story in
+            TabView(selection: $storyListViewModel.currentStoryId){
+                ForEach(storyListViewModel.storyList){ story in
                     StoryView(  story: story, onClose:onClose)
                         .tag(story.id)
                 }
