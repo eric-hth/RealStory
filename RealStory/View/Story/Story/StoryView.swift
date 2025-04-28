@@ -13,21 +13,18 @@ struct StoryView : View {
     }
     var body: some View {
         GeometryReader { proxy in
-            ZStack{
-                AsyncImage(url: storyViewModel.currentStoryImage.url).aspectRatio(contentMode: .fit)
-                TapOverlay ( onTapLeft:{
-                    storyViewModel.previous()
-                }, onTapRight: {
-                    storyViewModel.next()
-                } )
-                VStack{
-                    HStack{
-                        StoryUserView(user: storyViewModel.story.user, onClose: {
-                            storyViewModel.storyListViewModel.onClose()
-                        }).padding(10)
-                        Spacer()
-                    }
-                    Spacer()
+            VStack{
+                StoryUserView(user: storyViewModel.story.user, onClose: {
+                    storyViewModel.storyListViewModel.onClose()
+                }).padding(.top,10).padding(.leading,10).padding(.bottom, -20)
+                ZStack{
+                    AsyncImage(url: storyViewModel.currentStoryImage.url).aspectRatio(contentMode: .fit)
+                    TapOverlay ( onTapLeft:{
+                        storyViewModel.previous()
+                    }, onTapRight: {
+                        storyViewModel.next()
+                    } )
+ 
                 }
             }
             .padding(.bottom,20)
