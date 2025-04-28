@@ -50,18 +50,4 @@ struct StoryService{
 }
 
 
-extension StoryService{
-    struct SyncWithView: ViewModifier {
-        @ObservedObject var storyListViewModel : StoryListViewModel
-        @Query( sort: \Story.id) var storyList: [Story]
-        func body(content: Content) -> some View {
-                  content.onAppear{
-                      storyListViewModel.storyList = storyList
-                }
-                .onChange(of: storyList){ storyList in
-                    storyListViewModel.storyList = storyList
-                }
-            }
-    }
-}
- 
+

@@ -26,10 +26,39 @@ struct HomeView: View {
         .fullScreenCover(isPresented: $storyListViewModel.showModal, content: {
             StoryListView(storyListViewModel: storyListViewModel , onClose: { storyListViewModel.showModal = false})
         })
-        .modifier(StoryService.SyncWithView(storyListViewModel: storyListViewModel))
+        .modifier(StoryListManager.SyncWithView())
         .onAppear{
             StoryService.resetDataIfNecessary()
         }
     }
 }
 
+
+
+import SwiftUI
+import Combine
+import SwiftData
+@MainActor
+class StoryListManager : ObservableObject  {
+    static var shared = StoryListManager()
+    @Published var storyList : [Story]?
+    private var subscribers = Set<AnyCancellable>()
+    private init(){
+    }
+}
+
+extension StoryListManager{
+    struct SyncWithView: ViewModifier {
+        @Query( sort: \Story.id) var storyList: [Story]
+        func body(content: Content) -> some View {
+                  content.onAppear{
+                      StoryListManager.shared.storyList = storyList
+                }
+                .onChange(of: storyList){ storyList in
+                    StoryListManager.shared.storyList = storyList
+                }
+            }
+    }
+}
+ 
+ 

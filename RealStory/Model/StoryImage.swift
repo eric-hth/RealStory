@@ -13,7 +13,7 @@ class StoryImage: Identifiable, Hashable {
     var url : String
     var like : Bool
     var seen : Bool
-    init(id: Int, url: String, like: Bool = false, seen: Bool = false) {
+    init(id: Int, url: String, like: Bool , seen: Bool ) {
         self.id = id
         self.url = url
         self.like = like
@@ -25,7 +25,7 @@ class StoryImage: Identifiable, Hashable {
 extension Array where Element == StoryImage{
     private static var currentId = 1
     static var generateStoryImageList : [StoryImage]{
-       let result =  [StoryImage(id: currentId, url: .image1), StoryImage(id: currentId + 1, url: .image2),StoryImage(id: currentId + 2, url: .image3)]
+       let result =  [StoryImage(id: currentId, url: .image1, like: false, seen: false), StoryImage(id: currentId + 1, url: .image2, like: false, seen: false),StoryImage(id: currentId + 2, url: .image3, like: false, seen: false)]
         currentId += 3
         return result
     }

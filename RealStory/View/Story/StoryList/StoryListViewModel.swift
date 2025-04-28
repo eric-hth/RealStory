@@ -6,12 +6,22 @@
 //
 
 import SwiftUI
-
+import Combine
 @MainActor
 class StoryListViewModel  : ObservableObject {
     @Published var storyList : [Story]?
     @Published var currentStoryId : Int?
     @Published var showModal : Bool = false
+    private var subscribers = Set<AnyCancellable>()
+    init(){
+        StoryListManager.shared.$storyList
+        .combineLatest($showModal)
+        .sink{ storyList, showModal in
+             self.storyList = storyList
+        }
+        .store(in: &subscribers)
+    }
+    
     private var currentStory : Story? {
         self.storyList?.first(where: {story in story.id == currentStoryId})!
     }

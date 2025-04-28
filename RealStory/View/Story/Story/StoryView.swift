@@ -14,7 +14,7 @@ struct StoryView : View {
     var body: some View {
         GeometryReader { proxy in
             VStack{
-                StoryUserView(user: storyViewModel.story.user, onClose: {
+                StoryUserView(user: storyViewModel.story.user, storyImage: storyViewModel.currentStoryImage, onClose: {
                     storyViewModel.storyListViewModel.onClose()
                 }).padding(.top,10).padding(.leading,10).padding(.bottom, -20)
                 ZStack{
@@ -24,7 +24,6 @@ struct StoryView : View {
                     }, onTapRight: {
                         storyViewModel.next()
                     } )
- 
                 }
             }
             .padding(.bottom,20)
@@ -41,11 +40,12 @@ struct StoryImageView : View {
     let storyImage : StoryImage
     var body: some View {
         VStack{
-            Text(storyImage.seen ? "Seen" : "Unseen").foregroundStyle(.white)
             AsyncImage(url: storyImage.url).aspectRatio(contentMode: .fit)
         }
         .onAppear{
-            StoryImageService.handleSeen(storyImage: storyImage)
+  
+                StoryImageService.handleSeen(storyImage: storyImage)
+ 
         }
         .onChange(of: storyImage){ storyImage in
             StoryImageService.handleSeen(storyImage: storyImage)
@@ -61,6 +61,7 @@ private extension Angle{
 }
 private struct StoryUserView : View {
     let user : User
+    let storyImage : StoryImage
     let onClose : () -> Void
     var body: some View {
         HStack{
@@ -70,6 +71,9 @@ private struct StoryUserView : View {
             .clipShape(Circle())
             Text(user.name).foregroundStyle(.white)
             Spacer()
+            Button(storyImage.like ? "Unlike" : "Like"){
+                StoryImageService.handleLike(storyImage: storyImage, like: !storyImage.like)
+            }.foregroundColor(.white)
             Image(systemName:"xmark").font(.system(size: 25)).foregroundColor(.white).onTapGesture {
                 onClose()
             }
