@@ -8,11 +8,22 @@
 import SwiftUI
 
 struct HomeView: View {
+    @State private var showStoryListView: Bool = false
     var body: some View {
         VStack {
-            UserListView(userList: JsonService.userList)
-                .padding(.top,10)
+            StoryListTopView(storyList: Story.storyList, onSelect: {story in
+                    print(story)
+                showStoryListView = true
+            })
+            .padding(.top,10)
             Spacer()
+        }
+        .fullScreenCover(isPresented: $showStoryListView, content: {
+            StoryListView(storyList: Story.storyList, onClose: { showStoryListView = false})
+        })
+        .onAppear{
         }
     }
 }
+ 
+
