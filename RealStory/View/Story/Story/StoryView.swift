@@ -18,7 +18,7 @@ struct StoryView : View {
                     storyViewModel.storyListViewModel.onClose()
                 }).padding(.top,10).padding(.leading,10).padding(.bottom, -20)
                 ZStack{
-                    AsyncImage(url: storyViewModel.currentStoryImage.url).aspectRatio(contentMode: .fit)
+                    StoryImageView(storyImage: storyViewModel.currentStoryImage)
                     TapOverlay ( onTapLeft:{
                         storyViewModel.previous()
                     }, onTapRight: {
@@ -37,6 +37,22 @@ struct StoryView : View {
         }
     }
 }
+struct StoryImageView : View {
+    let storyImage : StoryImage
+    var body: some View {
+        VStack{
+            Text(storyImage.seen ? "Seen" : "Unseen").foregroundStyle(.white)
+            AsyncImage(url: storyImage.url).aspectRatio(contentMode: .fit)
+        }
+        .onAppear{
+            StoryImageService.handleSeen(storyImage: storyImage)
+        }
+        .onChange(of: storyImage){ storyImage in
+            StoryImageService.handleSeen(storyImage: storyImage)
+        }
+    }
+}
+
 
 private extension Angle{
     static func rotation3DAngle( proxy : GeometryProxy) -> Angle{

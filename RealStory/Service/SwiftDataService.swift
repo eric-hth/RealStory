@@ -10,7 +10,7 @@ import SwiftData
 @MainActor
 struct SwiftDataService{
     private static var modelContainer_ : ModelContainer?
-    static var modelList :  [ any PersistentModel.Type] =  [ Story.self ]
+    static var modelList :  [ any PersistentModel.Type] =  [ Story.self, StoryImage.self ]
       static var modelContainer : ModelContainer{
         get throws {
             if let modelContainer_ = modelContainer_{

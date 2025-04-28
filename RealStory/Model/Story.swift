@@ -18,7 +18,16 @@ class Story: Identifiable, Hashable {
         self.user = user
     }
 }
-
+extension Story{
+    var seen : Bool {
+        for image in imageList {
+            if !image.seen{
+                return false
+            }
+        }
+        return true
+    }
+}
 extension Story{
     static var testStoryList : [Story] {
             return Story.generateStoryList(userList: JsonService.userList)

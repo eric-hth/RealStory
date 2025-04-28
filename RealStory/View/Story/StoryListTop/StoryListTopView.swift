@@ -13,7 +13,7 @@ struct StoryListTopView: View {
             HStack {
                 if let storyList = storyListViewModel.storyList{
                     ForEach(storyList) { story in
-                        UserRoundImage(user: story.user).padding(3).onTapGesture {
+                        UserRoundImage(user: story.user, seen: story.seen).padding(3).onTapGesture {
                             storyListViewModel.topViewSelectStory(story)
                         }
                     }
@@ -26,12 +26,27 @@ struct StoryListTopView: View {
 
 private struct UserRoundImage: View {
       let user : User
+    let seen : Bool
     var body: some View {
         AsyncImage(url: user.profile_picture_url)
             .frame(width: 55, height: 55, alignment: .trailing)
             .clipShape(Circle())
             .padding(7)
-            .overlay(Circle().stroke( LinearGradient.instagramCircle, style: StrokeStyle(lineWidth: 2.5, lineCap: .round)) )
+            .modifier(UserRoundImageCircle(seen: seen))
+    }
+}
+
+struct UserRoundImageCircle: ViewModifier {
+    let seen : Bool
+    func body(content: Content) -> some View {
+        if seen{
+            content
+                .overlay(Circle().stroke( .gray, style: StrokeStyle(lineWidth: 2.5, lineCap: .round)) )
+        }
+        else{
+            content
+                .overlay(Circle().stroke( LinearGradient.instagramCircle, style: StrokeStyle(lineWidth: 2.5, lineCap: .round)) )
+        }
     }
 }
 
