@@ -16,9 +16,11 @@ struct ContentView: View {
             Text("Hello, world!")
         }
         .padding()
+        .onAppear{
+            print(JsonService.userList)
+        }
     }
 }
 
-#Preview {
-    ContentView()
-}
+
+
