@@ -7,9 +7,12 @@
 
 import SwiftUI
 import Combine
+import SwiftData
+
 @MainActor
 class StoryListViewModel  : ObservableObject {
     @Published var storyList : [Story]?
+    
     @Published var currentStoryId : Int?
     @Published var showModal : Bool = false
     private var subscribers = Set<AnyCancellable>()
@@ -47,4 +50,28 @@ class StoryListViewModel  : ObservableObject {
             currentStoryId = story.id
         }
     }
+    // MARK: Loom
+    func handleStoryAppear( _ story : Story){
+        // If story is near the end of the list, call getNextPage()
+    }
+    private func getNextPage(){
+        // Update story list
+    }
 }
+
+extension StoryListManager{
+    struct SyncWithView: ViewModifier {
+        @ObservedObject var storyListViewModel : StoryListViewModel
+        @Query( sort: \Story.id) var storyList: [Story]
+        func body(content: Content) -> some View {
+                  content.onAppear{
+                      storyListViewModel.storyList = storyList
+                }
+                .onChange(of: storyList){ storyList in
+                    storyListViewModel.storyList = storyList
+                }
+            }
+    }
+}
+ 
+ 

@@ -26,7 +26,7 @@ struct HomeView: View {
         .fullScreenCover(isPresented: $storyListViewModel.showModal, content: {
             StoryListView(storyListViewModel: storyListViewModel , onClose: { storyListViewModel.showModal = false})
         })
-        .modifier(StoryListManager.SyncWithView())
+        .modifier(StoryListManager.SyncWithView(storyListViewModel: storyListViewModel))
         .onAppear{
             StoryService.resetDataIfNecessary()
         }
@@ -47,18 +47,5 @@ class StoryListManager : ObservableObject  {
     }
 }
 
-extension StoryListManager{
-    struct SyncWithView: ViewModifier {
-        @Query( sort: \Story.id) var storyList: [Story]
-        func body(content: Content) -> some View {
-                  content.onAppear{
-                      StoryListManager.shared.storyList = storyList
-                }
-                .onChange(of: storyList){ storyList in
-                    StoryListManager.shared.storyList = storyList
-                }
-            }
-    }
-}
  
  

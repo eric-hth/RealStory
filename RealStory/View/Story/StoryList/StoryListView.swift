@@ -23,14 +23,6 @@ struct StoryListView: View {
                 }
             }
             .tabViewStyle(.page(indexDisplayMode: .never))
-//            .modifier(SeenListManager.SyncWithView())
-//            VStack{
-//                Spacer()
-//                Button("Reset"){
-//                    SeenService.reset()
-//                }
-//                .foregroundStyle(.white)
-//            }
         }
     }
 }

@@ -18,6 +18,7 @@ class Story: Identifiable, Hashable {
         self.user = user
     }
 }
+
 extension Story{
     var seen : Bool {
         for image in imageList {
